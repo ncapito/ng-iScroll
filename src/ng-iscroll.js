@@ -32,7 +32,6 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
             // default timeout
             var ngiScroll_timeout = 5;
 
-
             // default options
             var ngiScroll_opts = {
                 snap: true,
@@ -60,26 +59,45 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
                 };
             }
 
-            if (scope.$parent.myScrollOptions) {
-                for (var i in scope.$parent.myScrollOptions) {
-                    if (i === scroll_key) {
-                        for (var k in scope.$parent.myScrollOptions[i]) {
-                            ngiScroll_opts[k] = scope.$parent.myScrollOptions[i][k];
-                        }
-                    } else {
-                        ngiScroll_opts[i] = scope.$root.myScrollOptions[i];
-                    }
+            var iScrollControls = {};
+            if (attr.iScrollControls) {
+              var controllWatch = scope.$watch(attr.iScrollControls, function(newVal){
+                if(!newVal){
+                  return;
                 }
+                iScrollControls = newVal;
+                controllWatch();
+
+              });
             }
 
+          var iScrollOptions = {};
+           if (attr.iScrollOptions) {
+             var optionsWatch = scope.$watch(attr.iScrollOptions, function(newVal){
+               if(!newVal){
+                 return;
+               }
+               optionsWatch();
+               iScrollOptions = newVal;
+
+               for (var i in iScrollOptions) {
+                 if(typeof(iScrollOptions[i])!=="object"){
+                   ngiScroll_opts[i] = iScrollOptions[i];
+                 } else if (i === scroll_key) {
+                   for (var k in iScrollOptions[i]) {
+                      ngiScroll_opts[k] = iScrollOptions[i][k];
+                    }
+                  }
+                }
+
+             });
+
+            }
             // iScroll initialize function
             function setScroll()
             {
-                if (scope.$parent.myScroll === undefined) {
-                    scope.$parent.myScroll = [];
-                }
-
-                scope.$parent.myScroll[scroll_key] = new iScroll(element[0], ngiScroll_opts);
+                iScrollControls[scroll_key] = new iScroll(element[0], ngiScroll_opts);
+                debugger
             }
 
             // new specific setting for setting timeout using: ng-iscroll-timeout='{val}'
@@ -88,8 +106,7 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
             }
 
             // watch for 'ng-iscroll' directive in html code
-            scope.$watch(attr.ngIscroll, function ()
-            {
+            attr.$observe('ngIscroll',function(){
                 setTimeout(setScroll, ngiScroll_timeout);
             });
 
@@ -97,7 +114,9 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
 			if(attr.ngIscrollRefresher !== undefined) {
 				scope.$watch(attr.ngIscrollRefresher, function ()
 				{
-					if(scope.$parent.myScroll[scroll_key] !== undefined) scope.$parent.myScroll[scroll_key].refresh();
+					if(scope.iScrollControls[scroll_key] !== undefined) {
+            scope.iScrollControls[scroll_key].refresh();
+          }
 				});
 			}
         }

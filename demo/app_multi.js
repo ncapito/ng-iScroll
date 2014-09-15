@@ -2,32 +2,31 @@ var App = angular.module('App', ['ng-iscroll']);
 
 App.controller('Controller', function ($scope)
 {
-    $scope.$parent.myScrollOptions = {
+    $scope.myScrollControls = {};
+    $scope.myScrollOptions = {
         'testWrap2': {
             snap: false,
+            vScrollbar:true,
             onScrollEnd: function ()
             {
-                alert('finshed scrolling wrapper2');
             }},
         'wrapper3': {
             snap: false,
+            vScrollbar:true,
             onScrollEnd: function ()
             {
-                alert('finshed scrolling wrapper3');
             }}
     };
 
 
     $scope.refreshiScroll3 = function ()
     {
-        $scope.$parent.myScroll['wrapper3'].refresh();
-        alert('wrapper3 refreshed');
+        $scope.myScrollControls.wrapper3.refresh();
     };
 
 
     $scope.refreshiScroll2 = function ()
     {
-        $scope.$parent.myScroll['testWrap2'].refresh();
-        alert('testWrap2 refreshed');
+        $scope.myScrollControls.testWrap2.refresh();
     };
 });
