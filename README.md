@@ -1,18 +1,28 @@
 ng-iScroller v1.1
 ============
 
-AngularJS Module that enables iScroll 4.x to work using a directive.  If you are looking for a iScroll 5 compatible version please checkout the [ng-iScoll 1.2b branch](https://github.com/ibspoof/ng-iScroll/tree/v1.2b) 
+AngularJS Module that enables iScroll 4.x to work using a directive.  This fork was created to help fix issues with the 4.0 branch.
+
+
+If you are looking for a iScroll 5 compatible version please checkout the [ng-iScoll 1.2b branch](https://github.com/ibspoof/ng-iScroll/tree/v1.2b)
+
+
+
+Building:
+
+	```npm install```
+	```bower install```
 
 Demos
 ------------
-
 See demo/ Directory
+	```grunt demo```
 Note: Recommended to be used with iOS or Android devices only
 
 
 Dependencies
 ------------
-- [AngularJS 1.0.x](http://angularjs.org/)
+- [AngularJS 1.20.x](http://angularjs.org/)
 - [iScroll 4.x](https://github.com/cubiq/iscroll)   Version 4.2.x Recommended
 
 
@@ -41,8 +51,9 @@ Usage
  * Example ```var App = angular.module('App', ['ng-iscroll']);```
 
 * Add directive `ng-iscroll` to the ```<div id="wrapper">```
- * Example: ```<div id="wrapper" ng-iscroll>```
-
+ * Example: ```<div id="wrapper" ng-iscroll i-scroll-control="myScrollControls" i-scroll-options="myScrollOptions">```
+ * iScrollControll will be populated with controlls that you can use in the directive (future state this will get moved to service)
+ * options is an object with options
 
 Options
 -------------
@@ -71,14 +82,15 @@ Example:
 
 HTML:
 ```
-<div id="wrapper" ng-iscroll='wrapper' ng-iscroll-delay='50'>
+<div id="wrapper" ng-iscroll='wrapper' ng-iscroll-delay='50' i-scroll-control="myScrollControls" i-scroll-options="myScrollOptions">
 	<button ng-click="refreshiScroll()">Refresh</button>
 </div>
 ```
 
-AppController:
+MyController:
 ```
-$scope.$parent.myScrollOptions = {
+$scope.myScrollControls = {};
+$scope.myScrollOptions = {
 	'wrapper': {
 		snap: false,
 		onScrollEnd: function ()
@@ -89,7 +101,7 @@ $scope.$parent.myScrollOptions = {
 
 $scope.refreshiScroll = function ()
 {
-	$scope.$parent.myScroll['wrapper'].refresh();
+	$scope.myScrollControls.wrapper.refresh();
 	alert('wrapper refreshed');
 };
 ```

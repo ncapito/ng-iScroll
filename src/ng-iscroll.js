@@ -1,6 +1,4 @@
 /*!
-Copyright (c) 2013 Brad Vernon <bradbury.vernon@gmail.com>
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -20,9 +18,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 */
-
-
-angular.module('ng-iscroll', []).directive('ngIscroll', function ()
+angular.module('ng-iscroll', []).directive('ngIscroll', ['$q', '$timeout', function ($q,$timeout)
 {
   return {
     replace: false,
@@ -58,22 +54,29 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
             e.preventDefault();
           };
         }
+        var initialized = {}, options, controls;
+        initialized.options =  $q.defer();
+        initialized.controls =  $q.defer();
 
         var iScrollControls = {};
-        if (attr.iScrollControls) {
-          var controllWatch = scope.$watch(attr.iScrollControls, function(newVal){
+        if (attr.IscrollControls) {
+          var controllWatch = scope.$watch(attr.IscrollControls, function(newVal){
             if(!newVal){
               return;
             }
             iScrollControls = newVal;
             controllWatch();
+            initialized.controls.resolve();
 
           });
+        }else{
+          initialized.controls.resolve();
         }
 
         var iScrollOptions = {};
-        if (attr.iScrollOptions) {
-          var optionsWatch = scope.$watch(attr.iScrollOptions, function(newVal){
+
+        if (attr.IscrollOptions) {
+          var optionsWatch = scope.$watch(attr.IscrollOptions, function(newVal){
             if(!newVal){
               return;
             }
@@ -92,10 +95,14 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
                 }
               }
             }
+            initialized.options.resolve();
 
           });
 
+        }else{
+            initialized.options.resolve();
         }
+
         // iScroll initialize function
         function setScroll()
         {
@@ -107,9 +114,9 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
           ngiScroll_timeout = attr.ngIscrollDelay;
         }
 
-        // watch for 'ng-iscroll' directive in html code
-        attr.$observe('ngIscroll',function(){
-          setTimeout(setScroll, ngiScroll_timeout);
+
+        $q.all(initialized).then(function(){
+          $timeout(setScroll, ngiScroll_timeout);
         });
 
         // add ng-iscroll-refresher for watching dynamic content inside iscroll
@@ -123,4 +130,4 @@ angular.module('ng-iscroll', []).directive('ngIscroll', function ()
         }
       }
     };
-  });
+  }]);

@@ -2,8 +2,8 @@
 <head>
     <title>Demo</title>
     <link rel="stylesheet" type="text/css" href="./demo.css">
-    <script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.6/angular.js'></script>
-    <script type='text/javascript' src='http://rawgithub.com/cubiq/iscroll/v4/src/iscroll.js'></script>
+    <script type='text/javascript' src='/bower_components/angular/angular.min.js'></script>
+    <script type='text/javascript' src='/bower_components/iscroll/src/iscroll.js'></script>
     <script type="text/javascript" src="../src/ng-iscroll.js"></script>
     <script type="text/javascript" src="./app.js"></script>
 </head>
@@ -13,7 +13,7 @@
 <div ng-app='App'>
     <div ng-controller='Controller'>
 
-   <div id="wrapper" ng-iscroll='wrapper' ng-iscroll-delay='50'>
+   <div id="wrapper" ng-iscroll='wrapper' ng-iscroll-delay='50'   ng-iscroll-controls="myScrollControls">
 	<div id="scroller">
 		<ul id="thelist">
 			<li>Pretty row 1</li>

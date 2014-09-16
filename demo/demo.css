@@ -63,7 +63,7 @@ body {
 
 #wrapper3 {
 	position:absolute; z-index:1;
-	top:45px; bottom:48px; left:51%;
+	top:45px; bottom:48px; left:50%;
 	width:50%;
 	background:#555;
 	overflow:auto;

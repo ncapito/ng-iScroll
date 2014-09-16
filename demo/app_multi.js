@@ -18,15 +18,16 @@ App.controller('Controller', function ($scope)
             }}
     };
 
-
     $scope.refreshiScroll3 = function ()
     {
+        alert('refresh refreshiScroll3');
         $scope.myScrollControls.wrapper3.refresh();
     };
 
 
     $scope.refreshiScroll2 = function ()
     {
+        alert('refresh refreshiScroll2');
         $scope.myScrollControls.testWrap2.refresh();
     };
 });
