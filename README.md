@@ -10,8 +10,10 @@ If you are looking for a iScroll 5 compatible version please checkout the [ng-iS
 
 Building:
 
-	```npm install```
-	```bower install```
+```
+npm install
+bower install
+```
 
 Demos
 ------------
@@ -81,6 +83,7 @@ iScroll exposes both runtime and other functions that can change the appearance 
 Example:
 
 HTML:
+
 ```
 <div id="wrapper" ng-iscroll='wrapper' ng-iscroll-delay='50' i-scroll-control="myScrollControls" i-scroll-options="myScrollOptions">
 	<button ng-click="refreshiScroll()">Refresh</button>
